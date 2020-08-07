@@ -2,54 +2,46 @@ package com.anveshak.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.anveshak.pojo.User;
 import com.anveshak.repository.UserDao;
 import com.anveshak.repository.UserDaoImpl;
 
 public class UserServiceImpl implements UserService{
-	UserDao userdao;
 
+	private UserDao userdao;
 	public void setUserdao(UserDao userdao) {
 		this.userdao = userdao;
 	}
 
 	@Override
-	public String addUser(String id, String fname, String lname, String gender, String birthDate) {
-		User user=new User();
-		user.setUid(id);
-		user.setFirstName(fname);
-		user.setLastName(lname);
-		user.setGender(gender);
-		user.setDob(birthDate);
-		String status=userdao.addUser(user);
-		return status;
-	}
-	@Override
-	public String updateUser(String id, String fname, String lname, String gender, String birthDate) {
-		User user=new User();
-		user.setUid(id);
-		user.setFirstName(fname);
-		user.setLastName(lname);
-		user.setGender(gender);
-		user.setDob(birthDate);
-		String status=userdao.updateUser(user);
-		return status;
+	public List<User> getAllUser() {
+		return userdao.getAllUser();
 	}
 
 	@Override
-	public User getUser(String id) {
-		return userdao.getUser(id);
+	public User getUser(String email) {
+		return userdao.getUser(email);
 		
 	}
 
 	@Override
-	public String deleteUser(String id) {
-		return userdao.deleteUser(id);
+	public String deleteUser(String email) {
+		String status=userdao.deleteUser(email);
+		return status;
+	}
+	@Override
+	public User addUser(User user) {
+		User newUser=userdao.addUser(user);
+		return newUser;
+		
+		
 	}
 
 	@Override
-	public List<User> getAllUser() {
-		return userdao.getAllUser();
+	public String updateUser(User user) {
+		return userdao.updateUser(user);
 	}
 	
 

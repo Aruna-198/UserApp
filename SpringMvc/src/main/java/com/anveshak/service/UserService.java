@@ -5,11 +5,11 @@ import java.util.List;
 import com.anveshak.pojo.User;
 
 public interface UserService {
-	public String addUser(String id,String fname, String lname, String gender, String birthDate);
-	public String updateUser(String id,String fname, String lname, String gender, String birthDate);
-	public User getUser(String id);
-	public String deleteUser(String id);
+	public User getUser(String email);
 	public List<User> getAllUser();
+	public User addUser(User user);
+	public String updateUser(User user);
+	public String deleteUser(String email);
 	
 
 }

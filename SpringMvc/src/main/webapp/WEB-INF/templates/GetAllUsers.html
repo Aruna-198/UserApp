@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">    
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div align="center">
+		<h2>Users</h2>
+		<table border="1" cellpadding="5">
+			<tr>
+				<th>UserID</th>
+				<th>first-Name</th>
+				<th>Last-Name</th>
+				<th>Email</th>
+				<th>Gender</th>
+				<th>Date Of Birth</th>
+				<th>Delete</th>
+				</tr>
+		<tr th:each="user:${users}">
+				 <td th:text="${user.id}"></td>
+      			 <td th:text="${user.firstName}"></td>
+     			  <td th:text="${user.lastName}"></td>
+     			  <td th:text="${user.email}"></td>
+     			  <td th:text="${user.gender}"></td>
+     			  <td th:text="${user.dob}"></td>
+     			  <td>
+     			  <form th:action="@{/delete/{email}" method="get">
+                   <input type="text"  name="email"/>
+                 <button type="submit">Search</button> </form>
+ 
+     			  </td>
+			</tr>
+
+		</table>
+	</div>
+
+</body>
+</html>

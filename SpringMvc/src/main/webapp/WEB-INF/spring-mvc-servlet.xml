@@ -7,7 +7,10 @@
 	 http://www.springframework.org/schema/beans/spring-beans.xsd 
 	  http://www.springframework.org/schema/context 
 	   http://www.springframework.org/schema/context/spring-context.xsd">
+	   <context:annotation-config/>
+<context:component-scan base-package="com.anveshak.controller"/>
 
+		
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
@@ -23,38 +26,26 @@
 	<bean id="UserDao" class="com.anveshak.repository.UserDaoImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
-
-	<bean name="/add"
-		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-		<property name="viewName" value="AddUser"></property>
-	</bean>
-	<bean name="/delete"
-		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-		<property name="viewName" value="DeleteUser"></property>
-	</bean>
-	<bean name="/update"
-		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-		<property name="viewName" value="UpdateUser"></property>
-	</bean>
-	<bean name="/getAll"
-		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-		<property name="viewName" value="GetAllUsers"></property>
-	</bean>
-
 	<bean name="userservicebean" class="com.anveshak.service.UserServiceImpl">
 		<property name="userdao" ref="UserDao"></property>
 	</bean>
-	<bean name="/*" class="com.anveshak.controller.UserController">
-		<property name="userService" ref="userservicebean"></property>
-	</bean>
+	
+	
 
-	<bean
-		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
-
-	<bean name="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
+	<bean id="templateResolver"
+        class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+    <property name="prefix" value="/WEB-INF/templates/" />
+    <property name="suffix" value=".html" />
+    <property name="templateMode" value="HTML5" />
+  </bean>
+    
+  <bean id="templateEngine"
+        class="org.thymeleaf.spring4.SpringTemplateEngine">
+    <property name="templateResolver" ref="templateResolver" />
+  </bean>
+   
+  <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+    <property name="templateEngine" ref="templateEngine" />
+  </bean>    
 
 </beans>

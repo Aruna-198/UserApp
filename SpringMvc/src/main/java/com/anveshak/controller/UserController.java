@@ -1,82 +1,87 @@
 package com.anveshak.controller;
 
-import java.text.ParseException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+
 
 import com.anveshak.pojo.User;
 import com.anveshak.service.UserService;
 
-public class UserController extends MultiActionController {
+@Controller
+public class UserController {
+	@Autowired
 	private UserService userService;
 	String status = "";
-	String message = "";
 	
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	@RequestMapping("/home")
+	public String home(){
+			return "HomePage";
 	}
-	public ModelAndView home(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		 ModelAndView mv=new ModelAndView("HomePage");
-			return mv;
-	}
-	public ModelAndView updateuser(HttpServletRequest request, HttpServletResponse response) throws ParseException {
-		String id = request.getParameter("id");
 	
-		String firstName=request.getParameter("fname");
-		String lastName=request.getParameter("lname");
-		String gender=request.getParameter("gender");
-		String date=request.getParameter("dob");
-		
-		status = userService.updateUser(id, firstName, lastName, gender, date);
-		if (status.equals("success")) {
-			message = "User Add succesfuly";
-		}
-		if (status.equals("fail")) {
-			message = "User insertion fails";
-		}
-
-		return new ModelAndView("status", "message", message);
+	@RequestMapping("/userform")
+	public String showForm(Model model){
+		User user=new User();
+		model.addAttribute(user);
+		return "AddUser";
+	}
+	@RequestMapping("/update")
+	public String update(){
+				return "UpdateForm";
+	}
+	@RequestMapping("/delete")
+	public String delete(){
+				return "DeleteForm";
+	}
+	@RequestMapping("/search")
+	public String search(){
+				return "SearchForm";
+	}
+	@RequestMapping("/getall")
+	public String getall(){
+				return "AllUsers";}
+	
+	
+	@RequestMapping(value="/save",method = RequestMethod.POST)
+	 public String adduser(@ModelAttribute("user") User user,Model model)  {
+	User newUser = userService.addUser(user);
+	model.addAttribute(newUser);
+		return "UserInfo";
 }
-	public ModelAndView adduser(HttpServletRequest request, HttpServletResponse response) throws ParseException {
-			String id = request.getParameter("id");
-		
-			String firstName=request.getParameter("fname");
-			String lastName=request.getParameter("lname");
-			String gender=request.getParameter("gender");
-			String date=request.getParameter("dob");
-			
-			status = userService.addUser(id, firstName, lastName, gender, date);
-			if (status.equals("success")) {
-				message = "User Add succesfuly";
-			}
-			if (status.equals("fail")) {
-				message = "User insertion fails";
-			}
-
-			return new ModelAndView("status", "message", message);
+	
+	@RequestMapping(value= "/updateuser" ,method = RequestMethod.POST)
+	public String updateuser(HttpServletRequest request, HttpServletResponse response) {
+		String email=request.getParameter("email");
+		User user=userService.getUser(email);
+		return "UserEdit";
 }
-
-	public ModelAndView editform(HttpServletRequest request,HttpServletRequest response) {
-		String id=request.getParameter("id");
-		User user=userService.getUser(id);
+	@RequestMapping(value="/edit", method = RequestMethod.PUT)
+	public ModelAndView editform(@ModelAttribute("user")User user) {
+		status=userService.updateUser(user);
 		ModelAndView mv=null;
 		if(user==null) {
 			mv=new ModelAndView("status","message","user not existed");
 		}
 		else {
-			mv=new ModelAndView("UserEdit","uid",id);
+			mv=new ModelAndView("status","message","Updated succesfully");
 		}
 		
 		return mv;
 	}
-	public ModelAndView deleteuser(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/deleteuser" ,method = RequestMethod.POST)
+	public ModelAndView deleteuser(HttpServletRequest request,HttpServletResponse response) {
+		String email=request.getParameter("email");
 		ModelAndView mv = null;
-		String id = request.getParameter("uid");
-		status = userService.deleteUser(id);
+				status = userService.deleteUser(email);
 		if (status.equals("success")) {
 			mv = new ModelAndView("status", "message", "user delete succesfuly");
 		}
@@ -87,10 +92,21 @@ public class UserController extends MultiActionController {
 			mv = new ModelAndView("status", "message", "user not existed");
 		}
 
-		return null;
+		return mv;
 
 	}
-		public ModelAndView getAllUsers(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value ="/getuser/{email}" ,method = RequestMethod.GET)	
+	public ModelAndView getUser(HttpServletRequest request, HttpServletResponse response){
+		String email=request.getParameter("email");
+		User user=userService.getUser(email);
+		return new ModelAndView("UserInfo");
+		
+	}
+	
+	@RequestMapping("/allusers")
+		public ModelAndView getAllUsers(Model model ) {
+		java.util.List<User> users=userService.getAllUser();
+		model.addAttribute(users);
 		return new ModelAndView("GetAllUsers");
 		}
 	
