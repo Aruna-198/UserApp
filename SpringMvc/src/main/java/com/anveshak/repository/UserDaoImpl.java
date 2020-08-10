@@ -7,14 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -33,8 +28,8 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public User addUser( final User user) {
-		final String sql = "insert into table_User( FNAME,LNAME,EMAIL,GENDER,DOB) values(?,?,?,?,?)";
+	public String addUser( final User user) {
+		final String sql = "insert into table_User( FNAME,LNAME,EMAIL,PASSWORD,MOBILENUM,GENDER,DOB) values(?,?,?,?,?,?,?)";
 				KeyHolder holder = new GeneratedKeyHolder();
 				int i=jdbcTemplate.update(new PreparedStatementCreator() {
 					@Override
@@ -44,20 +39,28 @@ public class UserDaoImpl implements UserDao {
 						ps.setString(1, user.getFirstName());
 						ps.setString(2, user.getLastName());
 						ps.setString(3, user.getEmail());
-						ps.setString(4, user.getGender());
-						ps.setString(5, user.getDob());
+						ps.setString(4, user.getPassword());
+						ps.setString(5, user.getMobileNumber());
+						ps.setString(6, user.getGender());
+						ps.setString(7, user.getDob());
 						return ps;
 					}
 				}, holder);
 
-				int UserId = holder.getKey().intValue();
-				user.setId(UserId);
-				return user;
+			if(i==1) {
+				status="success";
+			}
+				else {
+					status="fails";
+				}
+			return status;
+				
+			
 			}
     @Override
 	public String deleteUser(String email) {
-		String sql="select*from table_User where EMAIL="+email;
-		List<User>users=jdbcTemplate.query(sql, new RowMapper<User>() {
+    	String sql = "select * from table_User where EMAIL='"+email+"';";		
+    	List<User>users=jdbcTemplate.query(sql, new RowMapper<User>() {
 
 			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -66,17 +69,18 @@ public class UserDaoImpl implements UserDao {
 				user.setFirstName(rs.getString("FNAME"));
 				user.setLastName(rs.getString("LNAME"));
 				user.setEmail(rs.getString("EMAIL"));
+				user.setPassword(rs.getString("PASSWORD"));
+				user.setMobileNumber(rs.getString("PASSWORD"));
 				user.setGender(rs.getString("GENDER"));
 				user.setDob(rs.getString("DOB"));
 				return user;
 			}
 		});
 		if(users.isEmpty()) {
-			
-				status=" NotExised";
+				status=" NotExisted";
 			}
 			else {
-					String sql1="delete from table_user where EMAIL="+email+"";
+					String sql1="delete from table_user where EMAIL='"+email+"';";
 					int count=jdbcTemplate.update(sql1);
 					if(count==1) {
 						status="Deleted";
@@ -99,24 +103,29 @@ public class UserDaoImpl implements UserDao {
 					String fname=rs.getString("FNAME");
 					String lname=rs.getString("LNAME");
 					String email=rs.getString("EMAIL");
+					String pass=rs.getString("PASSWORD");
+					String mobileNumber=rs.getString("MOBILENUM");
 					String gender=rs.getString("GENDER");
 					String date=rs.getString("DOB");
 					user.setId(id);
 					user.setFirstName(fname);
 					user.setLastName(lname);
-					user.setLastName(email);
+					user.setEmail(email);
+					user.setPassword(pass);
+					user.setMobileNumber(mobileNumber);
 					user.setGender(gender);
 					user.setDob(date);
 					list.add(user);	
 				}
 				return list;
+				
 			}
 		});
 	}
 	@Override
 	public String updateUser(User user) {
-		String sql="update table_User set FNAME="+user.getFirstName()+",LNAME="+user.getLastName()+""
-				+ ",GENDER="+user.getGender()+",DOB="+user.getDob()+" where UID="+user.getId()+"";
+		String sql="update table_User set FNAME="+user.getFirstName()+",LNAME="+user.getLastName()+",EMAIL="+user.getEmail()+",PASSWORD="+user.getPassword()+","
+				+ ",MOBILENUM="+user.getMobileNumber()+",GENDER="+user.getGender()+",DOB="+user.getDob()+" where EMAIL="+user.getEmail()+"";
 		int count=jdbcTemplate.update(sql);
 		if(count==1) {
 			status="success";
@@ -127,15 +136,32 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUser(String email) {
-		//beanpropertyrowmapper converts single row into the class object
-		String sql="select* from table_User where EMAIL=?";
-		return jdbcTemplate.queryForObject(sql, new Object[]{email},
-				new BeanPropertyRowMapper<User>(User.class));		
-		}
-	
+		User user=null;
+		String sql = "select * from table_User where EMAIL='"+email+"';";		
+    	List<User>users=jdbcTemplate.query(sql, new RowMapper<User>() {
 
-		
-	}
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				User user=new User();
+				
+				user.setFirstName(rs.getString("FNAME"));
+				user.setLastName(rs.getString("LNAME"));
+				user.setEmail(rs.getString("EMAIL"));
+				user.setGender(rs.getString("GENDER"));
+				user.setDob(rs.getString("DOB"));
+				return user;
+			}
+		});
+		if(users.isEmpty()) {
+				user=null;
+			}
+			else {
+				user=users.get(0);
+			}
+		return user;
+		}
+
+}
 
 	
 

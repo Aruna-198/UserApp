@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService{
 		return status;
 	}
 	@Override
-	public User addUser(User user) {
-		User newUser=userdao.addUser(user);
+	public String addUser(User user) {
+		String newUser=userdao.addUser(user);
 		return newUser;
 		
 		
@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService{
 	public String updateUser(User user) {
 		return userdao.updateUser(user);
 	}
+
 	
 
 	

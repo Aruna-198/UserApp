@@ -3,11 +3,26 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+ <link rel="stylesheet" href="../../maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="../../ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="../../maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<style>
+ button {
+        padding: 5px;
+        margin: 10px;
+    }
+</style>
+
 </head>
 <body>
 <div style=" padding-left: 12cm">
-<h1 align="centre">WELCOME </h1>
-<a th:href="@{/userform}">Register</a>
+<h1>WELCOME To User System</h1>
+<button type="button" style="color: green;"><a href="AddUser.html" th:href="@{/showform}">Register Here</a></button><br><br>
+<button type="button" style="color: green;"><a href="DeleteForm.html" th:href="@{/delete}">Delete</a></button><br><br><br>
+<button type="button" style="color: green;"><a href="GetAllUsers.html" th:href=@{/allusers}>All Users Information</a></button><br><br><br>
+<button type="button" style="color: green;"><a href="UpdateForm.html" th:href="@{/update}">Update</a></button><br><br><br>
+
+
 </div>
 </body>
 </html>

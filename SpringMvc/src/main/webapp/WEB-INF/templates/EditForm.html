@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>User Registration</title>
+<title>User Update</title>
 <style type="text/css">
     label {
         display: inline-block;
@@ -10,16 +10,14 @@
         margin: 5px;
         text-align: left;
     }
-    input[type=text], input[type=password], select {
+    input[type=text], input[type=password],input[type=tel], input[type=email] select {
         display: inline-block;
         width: 200px;
     }
     input[type=radio] {
         margin-left: 45px;
     }
-    input[type=checkbox] {
-        margin-right: 190px;
-    }  
+   
     button {
         padding: 5px;
         margin: 10px;
@@ -28,29 +26,31 @@
 </head>
 <body>
 <div align="center">
-    <h1>User Registration</h1>
-    <form th:action="@{/save}" method="post" th:object="${user}">
-       <label>User Id:</label>
-        <input type="hidden" th:field="${id}" /><br/>
-    
+    <h1>Update</h1>
+    <form th:action="@{/edit}" method="put" th:object="${user}">
         <label>First Name:</label>
-        <input type="text" th:field="${firstName}" /><br/>
+        <input type="text" th:field="*{firstName}" /><br/>
  
         <label>Last Name:</label>
-        <input type="text" th:field="${lastName}" /><br/>
+        <input type="text" th:field="*{lastName}" /><br/>
         
         <label>Email:</label>
-        <input type="text" th:field="${email}" /><br/>
- 
- 
-        <label>Date Of Birth:</label>
-        <input type="text" th:field="${dob}" /><br/>
+        <input type="email" th:field="*{email}" /><br/>
+        
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" /><br/>
+        
+        <label>MobileNumber:</label>
+        <input type="tel"  th:field="*{mobileNumber}" /><br/>
+         
+	   <label>Date Of Birth:</label>
+        <input type="text" th:field="*{dob}" /><br/>
  
         <label>Gender:</label>
-        <input type="radio" th:field="${gender}" value="Male" />Male
-        <input type="radio" th:field="${gender}" value="Female" />Female<br/>
+        <input type="radio" th:field="*{gender}" value="Male" />Male
+        <input type="radio" th:field="*{gender}" value="Female" />Female<br/>
  
-        <button type="submit">Register</button>    
+        <button type="submit">Update</button>    
     </form>
 </div>
 </body>
