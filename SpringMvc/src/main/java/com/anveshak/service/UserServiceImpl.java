@@ -1,12 +1,8 @@
 package com.anveshak.service;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.anveshak.pojo.User;
 import com.anveshak.repository.UserDao;
-import com.anveshak.repository.UserDaoImpl;
 
 public class UserServiceImpl implements UserService{
 
@@ -33,8 +29,8 @@ public class UserServiceImpl implements UserService{
 	}
 	@Override
 	public String addUser(User user) {
-		String newUser=userdao.addUser(user);
-		return newUser;
+		String status=userdao.addUser(user);
+		return status;
 		
 		
 	}

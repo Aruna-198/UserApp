@@ -3,16 +3,11 @@ package com.anveshak.pojo;
 public class User {
 	private int id;
 	private String firstName;
-	
 	private String LastName;
-	
 	private String email;
-	
 	private String password;
 	private String gender;
-	
 	private String mobileNumber;
-	
 	private String dob;
 
 	public String getMobileNumber() {

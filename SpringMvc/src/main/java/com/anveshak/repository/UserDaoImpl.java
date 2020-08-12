@@ -26,9 +26,12 @@ public class UserDaoImpl implements UserDao {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
 	
 	@Override
 	public String addUser( final User user) {
+		 User existingUser=getUser(user.getEmail());
+		 if(existingUser==null) {
 		final String sql = "insert into table_User( FNAME,LNAME,EMAIL,PASSWORD,MOBILENUM,GENDER,DOB) values(?,?,?,?,?,?,?)";
 				KeyHolder holder = new GeneratedKeyHolder();
 				int i=jdbcTemplate.update(new PreparedStatementCreator() {
@@ -47,18 +50,19 @@ public class UserDaoImpl implements UserDao {
 					}
 				}, holder);
 
-			if(i==1) {
+			if(i==1) 
 				status="success";
-			}
-				else {
+				else 
 					status="fails";
-				}
+		 }else {
+			 status="exist";}
 			return status;
 				
 			
 			}
     @Override
 	public String deleteUser(String email) {
+    	
     	String sql = "select * from table_User where EMAIL='"+email+"';";		
     	List<User>users=jdbcTemplate.query(sql, new RowMapper<User>() {
 
@@ -124,29 +128,34 @@ public class UserDaoImpl implements UserDao {
 	}
 	@Override
 	public String updateUser(User user) {
-		String sql="update table_User set FNAME="+user.getFirstName()+",LNAME="+user.getLastName()+",EMAIL="+user.getEmail()+",PASSWORD="+user.getPassword()+","
-				+ ",MOBILENUM="+user.getMobileNumber()+",GENDER="+user.getGender()+",DOB="+user.getDob()+" where EMAIL="+user.getEmail()+"";
+		String sql = "update table_user set FNAME = '" + user.getFirstName() + "', LNAME = '" + user.getLastName()+"', EMAIL = '" +user.getEmail()+"', PASSWORD = '" + user.getPassword()+"', MOBILENUM = '" + user.getMobileNumber()+"', GENDER = '" + user.getGender()+"', DOB = '" + user.getDob()
+        + "' where EMAIL = '" + user.getEmail() + "'";
+		 
+		/*String sql="update table_User set FNAME="+user.getFirstName()+",LNAME="+user.getLastName()+",EMAIL="+user.getEmail()+",PASSWORD="+user.getPassword()+",MOBILENUM="+user.getMobileNumber()+",GENDER="+user.getGender()+",DOB="+user.getDob()+" where EMAIL='"+user.getEmail()+"';";*/
 		int count=jdbcTemplate.update(sql);
 		if(count==1) {
 			status="success";
 		}else
 			status="fail";
 		return status;
+		
 	}
 
 	@Override
 	public User getUser(String email) {
-		User user=null;
+		User user=new User();
 		String sql = "select * from table_User where EMAIL='"+email+"';";		
     	List<User>users=jdbcTemplate.query(sql, new RowMapper<User>() {
 
 			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				User user=new User();
-				
+				user.setId(rs.getInt("UID"));
 				user.setFirstName(rs.getString("FNAME"));
 				user.setLastName(rs.getString("LNAME"));
 				user.setEmail(rs.getString("EMAIL"));
+				user.setPassword(rs.getString("PASSWORD"));
+				user.setMobileNumber(rs.getString("MOBILENUM"));
 				user.setGender(rs.getString("GENDER"));
 				user.setDob(rs.getString("DOB"));
 				return user;
