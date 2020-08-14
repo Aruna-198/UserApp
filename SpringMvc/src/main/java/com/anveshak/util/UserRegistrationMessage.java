@@ -1,11 +1,11 @@
 package com.anveshak.util;
 
-import com.anveshak.pojo.User;
+import com.anveshak.model.User;
 
 public class UserRegistrationMessage  {
-	public String hasError(User user) throws CustomValidation {
+	public boolean hasError(User user) throws CustomValidation  {
 		String message="";
-	
+	   
 		
 		if(user.getFirstName()=="") {
 			message="first name required";
@@ -34,7 +34,7 @@ public class UserRegistrationMessage  {
 		}
 		
 	
-		return message;
+		return false;
 	}
 
 }

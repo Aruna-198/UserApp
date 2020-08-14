@@ -1,47 +1,44 @@
 package com.anveshak.service;
 
 import java.util.List;
-import com.anveshak.pojo.User;
+
+import com.anveshak.model.User;
 import com.anveshak.repository.UserDao;
 
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
-	private UserDao userdao;
+	private UserDao userDao;
 	public void setUserdao(UserDao userdao) {
-		this.userdao = userdao;
+		this.userDao = userdao;
 	}
 
 	@Override
 	public List<User> getAllUser() {
-		return userdao.getAllUser();
+		return userDao.getAllUser();
 	}
 
 	@Override
 	public User getUser(String email) {
-		return userdao.getUser(email);
-		
+		return userDao.getUser(email);
+
 	}
 
 	@Override
 	public String deleteUser(String email) {
-		String status=userdao.deleteUser(email);
+		String status = userDao.deleteUser(email);
 		return status;
 	}
+
 	@Override
 	public String addUser(User user) {
-		String status=userdao.addUser(user);
+		String status = userDao.addUser(user);
 		return status;
-		
-		
+
 	}
 
 	@Override
 	public String updateUser(User user) {
-		return userdao.updateUser(user);
+		return userDao.updateUser(user);
 	}
-
-	
-
-	
 
 }

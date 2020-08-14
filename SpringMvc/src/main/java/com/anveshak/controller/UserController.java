@@ -10,67 +10,63 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import com.anveshak.pojo.User;
+
+import com.anveshak.model.User;
 import com.anveshak.service.UserService;
+import com.anveshak.util.UserRegistrationMessage;
 import com.anveshak.util.ValidateUser;
 
 @Controller
 public class UserController {
 	@Autowired
 	private UserService userService;
-
+	
 	@RequestMapping("/home")
 	public String home() {
 		return "HomePage";
 	}
-
 	@RequestMapping("/delete")
 	public String delete() {
 		return "DeleteForm";
 	}
-
 	@RequestMapping("/update")
 	public String update() {
 		return "UpdateForm";
 	}
-
-	@RequestMapping("/showform")
+	@RequestMapping("/showForm")
 	public String showForm(Model model) {
 		User user = new User();
 		model.addAttribute(user);
 		return "AddUser";
 	}
-
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView addUser(@ModelAttribute("user") User user, ValidateUser errorMessage, Model model ) {
-		String message="";
-		String status="";
-		ModelAndView mv=null;
-		String msg=errorMessage.hasError(user);
-		if(!(msg=="")){
-			model.addAttribute("error",msg);
+	public ModelAndView addUser(@ModelAttribute("user") User user, ValidateUser errorMessage, Model model) {
+		String message = "";
+		String status = "";
+		ModelAndView mv = null;
+		boolean flag=false;
+		String msg = errorMessage.checkError(user);
+		if(!(msg=="")) {flag=true;}
+		if (flag) {
+			model.addAttribute("flag",flag);
+			model.addAttribute("error", msg);
 			return new ModelAndView("AddUser");
-		}else
-			status=userService.addUser(user);
+		} else
+			status = userService.addUser(user);
 		if (status.equals("success")) {
 			message = "User Add Succesfuly";
-			mv=new ModelAndView("status","message",message);
+			mv = new ModelAndView("status", "message", message);
 		}
 		if (status.equals("fail")) {
 			message = "User Insertion Fails";
-			mv=new ModelAndView("status","message",message);
-
+			mv = new ModelAndView("status", "message", message);
 		}
 		if (status.equals("exist")) {
 			message = "User Already Existed";
-			mv=new ModelAndView("status","message",message);
-
+			mv = new ModelAndView("status", "message", message);
 		}
 		return mv;
-		
-		
-			}
-
+	}
 	@RequestMapping(value = "/updateUser{email}", method = RequestMethod.POST)
 	public ModelAndView updateUser(@RequestParam("email") String email, Model model) {
 		ModelAndView mv = null;
@@ -84,28 +80,25 @@ public class UserController {
 		}
 		return mv;
 	}
-
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView editForm(@ModelAttribute("user") User user,ValidateUser errorMessage,Model model) {
-		String status="";
-		ModelAndView mv=null;
-		String msg=errorMessage.hasError(user);
-		if(!(msg=="")) {
-			model.addAttribute("error",msg);
-			return new ModelAndView("EditForm");}
-		else
-		 status = userService.updateUser(user);
+	public ModelAndView editForm(@ModelAttribute("user") User user, ValidateUser errorMessage, Model model) {
+		String status = "";
+		ModelAndView mv = null;
+		String msg = errorMessage.checkError(user);
+		if (!(msg == "")) {
+			model.addAttribute("error", msg);
+			return new ModelAndView("EditForm");
+		} else
+			status = userService.updateUser(user);
 		if (status.equalsIgnoreCase("fail")) {
 			mv = new ModelAndView("status", "message", "updation fails");
 		}
 		if (status.equalsIgnoreCase("success")) {
 			mv = new ModelAndView("status", "message", "Updated succesfully");
 		}
-
 		return mv;
 	}
-
-	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
 	public ModelAndView deleteUser(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = null;
 		String email = request.getParameter("email");
@@ -123,17 +116,13 @@ public class UserController {
 			mv = new ModelAndView("status", "message", msg);
 		}
 		return mv;
-
 	}
-
 	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
 	public ModelAndView getUser(HttpServletRequest request, HttpServletResponse response) {
 		String email = request.getParameter("email");
-		User user = userService.getUser(email);
+		userService.getUser(email);
 		return new ModelAndView("UserInfo");
-
 	}
-
 	@RequestMapping("/allUsers")
 	public String getAllUsers(Model model) {
 		model.addAttribute("users", userService.getAllUser());

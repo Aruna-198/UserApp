@@ -10,19 +10,25 @@
  button {
         padding: 5px;
         margin: 10px;
+        color: blue;
+        background-color:orange;
+        width: 6cm;
+        height: 1cm;
+        margin-left: 14cm;
     }
 </style>
 
 </head>
 <body>
-<div style=" padding-left: 12cm">
-<h1>WELCOME To User System</h1>
-<button type="button" style="color: green;"><a th:href="@{/showform}">Register Here</a></button><br><br>
-<button type="button" style="color: green;"><a  th:href="@{/delete}">Delete</a></button><br><br><br>
-<button type="button" style="color: green;"><a  th:href=@{/allUsers}>All Users Information</a></button><br><br><br>
-<button type="button" style="color: green;"><a  th:href="@{/update}">Update</a></button><br><br><br>
-
-
+<div style=" padding-left: 11cm">
+<h1>WELCOME TO USER SYSTEM</h1>
 </div>
+<button type="button" style="color: green; font-size: medium; "><a th:href="@{/showForm}"><b>Register</b></a></button><br><br>
+<button type="button" style="color: green;font-size: medium; "><a  th:href="@{/delete}"><b>Delete</b></a></button><br><br><br>
+<button type="button" style="color: green;font-size: medium; "><a  th:href=@{/allUsers}><b>All Users Information</b></a></button><br><br><br>
+<button type="button" style="color: green; font-size: medium; "><a  th:href="@{/update}"><b>Update</a></button><br><br><br>
+
+
+
 </body>
 </html>
