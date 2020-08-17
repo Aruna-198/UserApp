@@ -53,18 +53,10 @@ public class UserController {
 			return new ModelAndView("AddUser");
 		} else
 			status = userService.addUser(user);
-		if (status.equals("success")) {
-			message = "User Add Succesfuly";
-			mv = new ModelAndView("status", "message", message);
-		}
-		if (status.equals("fail")) {
-			message = "User Insertion Fails";
-			mv = new ModelAndView("status", "message", message);
-		}
-		if (status.equals("exist")) {
-			message = "User Already Existed";
-			mv = new ModelAndView("status", "message", message);
-		}
+		if (status.equals("success")) 
+			mv = new ModelAndView("status", "message", "User Add Succesfuly");
+		if (status.equals("Exist")) 
+			mv = new ModelAndView("status", "message", "User Already Existed");
 		return mv;
 	}
 	@RequestMapping(value = "/updateUser{email}", method = RequestMethod.POST)
@@ -90,12 +82,10 @@ public class UserController {
 			return new ModelAndView("EditForm");
 		} else
 			status = userService.updateUser(user);
-		if (status.equalsIgnoreCase("fail")) {
-			mv = new ModelAndView("status", "message", "updation fails");
-		}
-		if (status.equalsIgnoreCase("success")) {
+		if (status.equalsIgnoreCase("NotExisted")) 
+			mv = new ModelAndView("status", "message", "User Not Exist");
+		if (status.equalsIgnoreCase("success")) 
 			mv = new ModelAndView("status", "message", "Updated succesfully");
-		}
 		return mv;
 	}
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
@@ -103,26 +93,20 @@ public class UserController {
 		ModelAndView mv = null;
 		String email = request.getParameter("email");
 		String status = userService.deleteUser(email);
-		if (status.equals("Deleted")) {
-			String msg = "user delete succesfuly";
-			mv = new ModelAndView("status", "message", msg);
-		}
-		if (status.equals("fail")) {
-			String msg = "deletion fails";
-			mv = new ModelAndView("status", "message", msg);
-		}
-		if (status.equals("NotExisted")) {
-			String msg = "user not existed";
-			mv = new ModelAndView("status", "message", msg);
-		}
+		if (status.equals("success")) 
+			mv = new ModelAndView("status", "message", "user delete succesfuly");
+			if (status.equals("NotExisted"))
+			mv = new ModelAndView("status", "message", "user not exist");
 		return mv;
 	}
+	
 	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
 	public ModelAndView getUser(HttpServletRequest request, HttpServletResponse response) {
 		String email = request.getParameter("email");
 		userService.getUser(email);
 		return new ModelAndView("UserInfo");
 	}
+	
 	@RequestMapping("/allUsers")
 	public String getAllUsers(Model model) {
 		model.addAttribute("users", userService.getAllUser());

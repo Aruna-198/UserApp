@@ -1,19 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.anveshak</groupId>
-  <artifactId>SpringMvc</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>SpringMvc Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-    <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.anveshak</groupId>
+	<artifactId>SpringMvc</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>SpringMvc Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<properties>
 		<java.version>1.6</java.version>
 		<spring.version>4.3.1.RELEASE</spring.version>
 		<cglib.version>2.2.2</cglib.version>
 	</properties>
-  
-  <dependencies>
+
+	<dependencies>
 
 		<!-- Spring core & mvc -->
 		<dependency>
@@ -66,45 +67,46 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-		<groupId>jstl</groupId>
-		<artifactId>jstl</artifactId>
-		<version>1.2</version>
-	</dependency>
-	<dependency>  
-    <groupId>org.springframework</groupId>  
-    <artifactId>spring-jdbc</artifactId>  
-    <version>5.1.1.RELEASE</version> 
-     </dependency>
-     <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-tx</artifactId>
-        <version>4.2.0.RELEASE</version>
-    </dependency>
-    <dependency>
-	    <groupId>org.thymeleaf</groupId>
-	    <artifactId>thymeleaf</artifactId>
-	    <version>3.0.9.RELEASE</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.thymeleaf</groupId>
-	    <artifactId>thymeleaf-spring4</artifactId>
-	    <version>3.0.9.RELEASE</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.fasterxml/classmate -->
-
-	<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
-<dependency>
-    <groupId>commons-logging</groupId>
-    <artifactId>commons-logging</artifactId>
-    <version>1.1.1</version>
-</dependency>
-	<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
-<dependency>
-    <groupId>javax.validation</groupId>
-    <artifactId>validation-api</artifactId>
-    <version>1.1.0.Final</version>
-</dependency>
-	
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.35</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.0.4</version>
+		</dependency>
+		<!-- Mybatis Spring -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>5.1.1.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>4.2.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>3.0.9.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>3.0.9.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
@@ -129,5 +131,5 @@
 			</plugin>
 		</plugins>
 
-  </build>
+	</build>
 </project>

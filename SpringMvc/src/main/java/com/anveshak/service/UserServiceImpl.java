@@ -13,6 +13,48 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public String addUser(User user) {
+		String message="";
+		User existingUser=userDao.getUser(user.getEmail());
+		if(!(existingUser==null)) {
+		message="Exist";
+		}else {
+		int count=userDao.addUser(user);
+		if(count==1) {
+			 message="success";
+		}
+		else {
+			message="fail";
+		}}
+		return message;
+		
+	}
+	@Override
+	public String deleteUser(String email) {
+		String message="";
+		int count = userDao.deleteUser(email);
+		if(count==1) {
+			 message="success";
+		}
+		else {
+			message="NotExisted";
+		}
+		return message;
+	}
+	@Override
+	public String updateUser(User user) {
+		String message="";
+		int count = userDao.updateUser(user);
+		if(count==1) {
+			 message="success";
+		}
+		else {
+			message="NotExisted";
+		}
+		return message;
+	}
+
+	@Override
 	public List<User> getAllUser() {
 		return userDao.getAllUser();
 	}
@@ -22,23 +64,6 @@ public class UserServiceImpl implements UserService {
 		return userDao.getUser(email);
 
 	}
-
-	@Override
-	public String deleteUser(String email) {
-		String status = userDao.deleteUser(email);
-		return status;
-	}
-
-	@Override
-	public String addUser(User user) {
-		String status = userDao.addUser(user);
-		return status;
-
-	}
-
-	@Override
-	public String updateUser(User user) {
-		return userDao.updateUser(user);
-	}
+	
 
 }

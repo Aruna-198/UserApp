@@ -19,17 +19,21 @@ xsi:schemaLocation="
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
-	<bean id="jdbcTemplate"
-		class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<bean id="UserDao" class="com.anveshak.repository.UserDaoImpl">
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-	</bean>
-	<bean name="userservicebean" class="com.anveshak.service.UserServiceImpl">
-		<property name="userdao" ref="UserDao"></property>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="mapperLocations" value="classpath*:/com/anveshak/repository/UserMapper.xml" /> 
+ 		 <property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="userDao" class="com.anveshak.repository.UserDaoImpl">
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean name="userservicebean" class="com.anveshak.service.UserServiceImpl">
+		<property name="userdao" ref="userDao"></property>
+	</bean>
 	
 
 	<bean id="templateResolver"
