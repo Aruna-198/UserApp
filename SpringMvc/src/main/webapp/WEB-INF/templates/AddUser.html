@@ -26,45 +26,46 @@ button {
 	margin: 10px;
 }
 </style>
+
 </head>
 <body>
 	<div align="center">
 		<h1>Registration Form</h1>
-		<form th:action="@{/save}" method="post" th:object="${user}">
+		<form th:action="@{/save}" method="post" th:object="${user}" name="myform">
 			<table>
 				<tr>
 				<h4 style="color: red;" th:text="${error}"></h4>
 					<td><label>First Name:</label></td>
-					<td><input type="text" th:field="*{firstName}" /><br /></td>
+					<td><input type="text" th:field="*{firstName}"  name="fname"/><br /></td>
 					<td th:if="${flag}"></td>
 				</tr>
 				<tr>
 					<td><label>Last Name:</label></td>
-					<td><input type="text" th:field="*{lastName}" /><br /></td>
+					<td><input type="text" th:field="*{lastName}" name="lname"/><br /></td>
 				</tr>
 				<tr>
 					<td><label>Email:</label></td>
-					<td><input type="email" th:field="*{email}" /><br /></td>
+					<td><input type="email" th:field="*{email}" name="email" /><br /></td>
 				</tr>
 				<tr>
 					<td><label>Password:</label></td>
-					<td><input type="password" th:field="*{password}" /><br></td>
+					<td><input type="password" th:field="*{password}" name="password"/><br></td>
 				</tr>
 				<tr>
 					<td><label>MobileNumber:</label></td>
-					<td><input type="text" th:field="*{mobileNumber}" /><br /></td>
+					<td><input type="text" th:field="*{mobileNumber}" name="mobileNum" /><br /></td>
 				</tr>
 				<tr>
 					<td><label>Date Of Birth:</label></td>
-					<td><input type="date" th:field="*{dob}" /><br /></td>
+					<td><input type="date" th:field="*{dob}" name="dob"/><br /></td>
 				</tr>
 				<tr>
 					<td><label>Gender:</label>
-					<td><input type="radio" th:field="*{gender}" value="Male" />Male</td>
-					<td><input type="radio" th:field="*{gender}" value="Female" />Female<br /></td>
+					<td><input type="radio" th:field="*{gender}" value="Male" name="gender" />Male</td>
+					<td><input type="radio" th:field="*{gender}" value="Female" name="gender" />Female<br /></td>
 				</tr>
 			</table>
-			<button type="submit">Register</button>
+			<button type="submit" onclick=" return confirmRegister();">Register</button>
 			<br>
 			<br>
 			<button type="button" style="color: green;">
@@ -74,5 +75,23 @@ button {
 
 		</form>
 	</div>
+	<script type="text/javascript">
+	function confirmRegister(){
+		var f = document.forms["myForm"]["fname"].value;
+		var l = document.forms["myForm"]["lname"].value;
+		var e = document.forms["myForm"]["email"].value;
+		var p = document.forms["myForm"]["password"].value;
+		var m = document.forms["myForm"]["mobileNum"].value;
+		var d = document.forms["myForm"]["dob"].value;
+		var g = document.forms["myForm"]["gender"].value;
+		if ((f == "")&&(l== "")&&!(e == "")&&(p== "")&&(m == "")&&(d == "")&&(g ==null){ 
+	         return false;
+	     }
+		else{
+			alert("Registration Successful!!!!");
+			return true;
+		}
+	}
+	</script>
 </body>
 </html>

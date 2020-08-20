@@ -3,67 +3,65 @@ package com.anveshak.service;
 import java.util.List;
 
 import com.anveshak.model.User;
-import com.anveshak.repository.UserDao;
+import com.anveshak.repository.UserMapper;
+import com.anveshak.util.ValidateUser;
 
 public class UserServiceImpl implements UserService {
+	private UserMapper userMapper;
 
-	private UserDao userDao;
-	public void setUserdao(UserDao userdao) {
-		this.userDao = userdao;
+	public void setUserMapper(UserMapper userMapper) {
+		this.userMapper = userMapper;
 	}
 
 	@Override
 	public String addUser(User user) {
-		String message="";
-		User existingUser=userDao.getUser(user.getEmail());
-		if(!(existingUser==null)) {
-		message="Exist";
-		}else {
-		int count=userDao.addUser(user);
-		if(count==1) {
-			 message="success";
-		}
-		else {
-			message="fail";
-		}}
-		return message;
-		
+		ValidateUser errorMessage = new ValidateUser();
+		String msg = "";
+		User existingUser = userMapper.getUser(user.getEmail());
+		msg = errorMessage.checkError(user);
+		if (!(msg.equals("")))
+			return msg;
+		if (!(existingUser == null)) {
+			msg = "user already exist";
+			return msg;
+		} else
+			userMapper.addUser(user);
+		return msg;
 	}
+
 	@Override
 	public String deleteUser(String email) {
-		String message="";
-		int count = userDao.deleteUser(email);
-		if(count==1) {
-			 message="success";
-		}
-		else {
-			message="NotExisted";
-		}
+		String message = "";
+		int count = userMapper.deleteUser(email);
+		if (count == 1)
+			message = "succesfully ";
+		else
+			message = "fail";
 		return message;
 	}
+
 	@Override
 	public String updateUser(User user) {
-		String message="";
-		int count = userDao.updateUser(user);
-		if(count==1) {
-			 message="success";
-		}
-		else {
-			message="NotExisted";
-		}
-		return message;
+		ValidateUser errorMessage = new ValidateUser();
+		String msg = "";
+		msg = errorMessage.checkError(user);
+		if (!(msg.equals("")))
+			return msg;
+		else
+			userMapper.updateUser(user);
+		return msg;
 	}
 
 	@Override
 	public List<User> getAllUser() {
-		return userDao.getAllUser();
+		return userMapper.getAllUser();
 	}
 
 	@Override
 	public User getUser(String email) {
-		return userDao.getUser(email);
+		User user = userMapper.getUser(email);
+		return user;
 
 	}
-	
 
 }

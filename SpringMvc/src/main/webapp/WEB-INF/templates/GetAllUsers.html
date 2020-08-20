@@ -1,28 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="https://thymeleaf.org">
+<html>
 <head>
 <meta charset="ISO-8859-1">
-<title>User Information</title>
+<title>Insert title here</title>
 <link rel="stylesheet"
-	href="../../maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="../../ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="../../maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<style>
-<
-style>table {
-	padding: 5px;
-	border-style: solid;
-	border: medium;
-}
-</style>
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+	
+	<style type="text/css">
+	 button {
+	 border:none;
+	 background-color:yellow;
+        width: 6cm;
+        height: 1cm;
+        margin-left: 14cm;
+        margin-top: 1cm;  }
+    th{
+    background-color:gray;
+    color: white;
+    }
+	</style>
 </head>
 <body>
-
-	<div align="center">
-		<h2>Users</h2>
-		<table border="1">
+<script type="text/javascript">
+	function deleteFunction(){
+		var a=confirm("are you sure you want to delete");
+		if(a)
+		return true;
+		else
+		return false;
+	}
+	</script>
+	<div class="container-fluid">
+	<button type="button"><a th:href="@{/showForm}">Add New User</a></button><br><br>
+	
+		<table class="table table-striped">
 			<tr>
 				<th>UserID</th>
 				<th>first-Name</th>
@@ -32,6 +45,8 @@ style>table {
 				<th>MobileNumber</th>
 				<th>Gender</th>
 				<th>Date Of Birth</th>
+				<th>Update</th>
+				<th>Delete</th>
 			</tr>
 			<tr th:each="user:${users}">
 				<td th:utext="${user.id}"></td>
@@ -42,8 +57,9 @@ style>table {
 				<td th:utext="${user.mobileNumber}"></td>
 				<td th:utext="${user.gender}"></td>
 				<td th:utext="${user.dob}"></td>
+				<td><a class="btn btn-primary"  th:href="@{/updateUser/{email}/(email=${user.email})}"  role="button">Edit</a></td>
+				<td><a class="btn btn-danger"  th:href="@{/deleteUser/{email}/(email=${user.email})}" onclick="return deleteFunction();" role="button">Delete</a></td>
 			</tr>
-
 		</table>
 	</div>
 
