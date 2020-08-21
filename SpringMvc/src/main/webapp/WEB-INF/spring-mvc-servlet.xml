@@ -28,7 +28,7 @@ xsi:schemaLocation="
   		<property name="mapperInterface" value="com.anveshak.repository.UserMapper" />
   		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-	<bean name="userservicebean" class="com.anveshak.service.UserServiceImpl">
+	<bean name="userServiceBean" class="com.anveshak.service.UserServiceImpl">
 		<property name="userMapper" ref="userMapper"></property>
 	</bean>
 	

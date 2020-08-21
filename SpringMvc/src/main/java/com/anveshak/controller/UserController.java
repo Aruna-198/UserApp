@@ -22,7 +22,7 @@ public class UserController {
 	public String showForm(Model model) {
 		User user = new User();
 		model.addAttribute(user);
-		return "AddUser";
+		return "RegistrationForm";
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -30,7 +30,7 @@ public class UserController {
 		String status = userService.addUser(user);
 		if (!(status == null)) {
 			model.addAttribute("error", status);
-			return "AddUser";
+			return "RegistrationForm";
 		}
 		return "redirect:allUsers";
 	}
@@ -69,7 +69,7 @@ public class UserController {
 	@RequestMapping("/allUsers")
 	public String getAllUsers(Model model) {
 		model.addAttribute("users", userService.getAllUser());
-		return "GetAllUsers";
+		return "AllUsers";
 	}
 
 }
