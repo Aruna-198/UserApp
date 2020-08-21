@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.anveshak.model.User;
@@ -19,21 +18,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping("/home")
-	public String home() {
-		return "HomePage";
-	}
-
-	@RequestMapping("/delete")
-	public String delete() {
-		return "DeleteForm";
-	}
-
-	@RequestMapping("/update")
-	public String update() {
-		return "UpdateForm";
-	}
-
 	@RequestMapping("/showForm")
 	public String showForm(Model model) {
 		User user = new User();
@@ -43,11 +27,8 @@ public class UserController {
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("user") User user, ValidateUser errorMessage, Model model) {
-		boolean flag = false;
 		String status = userService.addUser(user);
-		if (!(status.equals(""))) {
-			flag = true;
-			model.addAttribute("flag", flag);
+		if (!(status == null)) {
 			model.addAttribute("error", status);
 			return "AddUser";
 		}
@@ -65,16 +46,18 @@ public class UserController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String editForm(@ModelAttribute("user") User user, Model model) {
-		String status = "";
-			status = userService.updateUser(user);
+		String status = userService.updateUser(user);
+		if (!(status == null)) {
+			model.addAttribute("error", status);
+			return "EditForm";
+		}
 		return "redirect:allUsers";
 	}
 
 	@RequestMapping(value = "/deleteUser/{email}", method = RequestMethod.GET)
-	public ModelAndView delete(@PathVariable("email") String email) {
-		String status=userService.deleteUser(email);
-			return new ModelAndView("status","message",status);
-			
+	public String delete(@PathVariable("email") String email) {
+		userService.deleteUser(email);
+		return "redirect:/allUsers";
 	}
 
 	@RequestMapping(value = "/getUser/{email}", method = RequestMethod.GET)

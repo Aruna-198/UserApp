@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 		String msg = "";
 		User existingUser = userMapper.getUser(user.getEmail());
 		msg = errorMessage.checkError(user);
-		if (!(msg.equals("")))
+		if (!(msg==null))
 			return msg;
 		if (!(existingUser == null)) {
 			msg = "user already exist";
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		ValidateUser errorMessage = new ValidateUser();
 		String msg = "";
 		msg = errorMessage.checkError(user);
-		if (!(msg.equals("")))
+		if (!(msg==null))
 			return msg;
 		else
 			userMapper.updateUser(user);
