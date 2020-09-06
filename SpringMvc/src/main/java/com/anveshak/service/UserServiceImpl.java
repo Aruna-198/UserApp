@@ -14,18 +14,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String addUser(User user) {
-		ValidateUser errorMessage = new ValidateUser();
 		String msg = "";
 		User existingUser = userMapper.getUser(user.getEmail());
-		msg = errorMessage.checkError(user);
-		if (!(msg==null))
-			return msg;
 		if (!(existingUser == null)) {
-			msg = "user already exist";
+			msg = "User already exist";
 			return msg;
 		} else
 			userMapper.addUser(user);
-		return msg;
+		return null;
 	}
 
 	@Override
@@ -41,14 +37,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String updateUser(User user) {
-		ValidateUser errorMessage = new ValidateUser();
 		String msg = "";
-		msg = errorMessage.checkError(user);
-		if (!(msg==null))
-			return msg;
-		else
 			userMapper.updateUser(user);
-		return msg;
+		return null;
 	}
 
 	@Override

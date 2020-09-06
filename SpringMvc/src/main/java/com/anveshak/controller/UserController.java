@@ -26,13 +26,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user") User user, ValidateUser errorMessage, Model model) {
+	public String addUser(@ModelAttribute("user") User user, Model model) {
 		String status = userService.addUser(user);
 		if (!(status == null)) {
 			model.addAttribute("error", status);
 			return "RegistrationForm";
 		}
-		return "redirect:allUsers";
+		else
+		return "redirect:/allUsers";
 	}
 
 	@RequestMapping(value = "/updateUser/{email}", method = RequestMethod.GET)
@@ -46,12 +47,8 @@ public class UserController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String editForm(@ModelAttribute("user") User user, Model model) {
-		String status = userService.updateUser(user);
-		if (!(status == null)) {
-			model.addAttribute("error", status);
-			return "EditForm";
-		}
-		return "redirect:allUsers";
+		userService.updateUser(user);
+		return "redirect:/allUsers";
 	}
 
 	@RequestMapping(value = "/deleteUser/{email}", method = RequestMethod.GET)
@@ -60,7 +57,7 @@ public class UserController {
 		return "redirect:/allUsers";
 	}
 
-	@RequestMapping(value = "/getUser/{email}", method = RequestMethod.GET)
+	@RequestMapping(value = "getUser/{email}", method = RequestMethod.GET)
 	public ModelAndView getUser(@PathVariable("email") String email) {
 		userService.getUser(email);
 		return new ModelAndView("UserInfo");
